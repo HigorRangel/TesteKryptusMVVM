@@ -1,0 +1,83 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TesteKryptusMVVM.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="880" d:DesignHeight="530"
+        Width="880" Height="530"
+        x:Class="TesteKryptusMVVM.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TesteKryptusMVVM">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <StackPanel>
+
+    <Grid ColumnDefinitions="*" RowDefinitions="16, *, *, *">
+      <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="*" RowDefinitions="16">
+        <Rectangle Fill="#127DC1" Height="16"/>
+      </Grid>
+      <!--<Grid Grid.Column="0" Grid.Row="1" ColumnDefinitions="*" RowDefinitions="*">
+          <TextBlock Text="{Binding Path}" FontSize="16" Margin="0, 0, 0, 5"> </TextBlock>
+        </Grid>-->
+      <Grid Margin="0, 50, 0, 0" Grid.Column="0" Grid.Row="1" ColumnDefinitions="330" RowDefinitions="90" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Image Name="ImageDisplay"
+                       Source="avares://TesteKryptusMVVM/Assets/Kryptus-Logo.png"
+                       Height="90" Width="330"/>
+
+        <!--<Rectangle Fill="Gray" Height="90" Width="330"/>-->
+
+      </Grid>
+      <Grid Margin="0, 50, 0, 0" Grid.Column="0" Grid.Row="2" ColumnDefinitions="330" RowDefinitions="*, 40, *, 40" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="16" Margin="0, 0, 0, 5">Usuário </TextBlock>
+        <TextBox VerticalContentAlignment="Center" Text="{Binding User}" Name="nomeTeste"  Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" FontSize="16" Margin="0, 20, 0, 5">Senha </TextBlock>
+        <TextBox VerticalContentAlignment="Center" Text="{Binding Password}" Grid.Row="4" Grid.Column="1" PasswordChar="*"/>
+      </Grid>
+      <Grid Margin="0, 0, 0, 0" Grid.Column="0" Grid.Row="3" ColumnDefinitions="165, 165" RowDefinitions="90" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Grid  Grid.Column="0" Grid.Row="0" ColumnDefinitions="*" RowDefinitions="*" HorizontalAlignment="Left" VerticalAlignment="Center">
+          <Button FontSize="16"  Grid.Row="0" Grid.Column="0" Content="Login" Background="#127DC1" BorderBrush="#127DC1" BorderThickness="2" CornerRadius="8" HorizontalContentAlignment="Center" Foreground="White" FontWeight="Medium" Width="160" Click="OnLoginClick"></Button>
+        </Grid>
+        <Grid Margin="0"  Grid.Column="1" Grid.Row="0" ColumnDefinitions="*" RowDefinitions="*" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <Button FontSize="16" Grid.Row="0" Grid.Column="1" Content="Registre-se" Background="Transparent" BorderBrush="#127DC1" BorderThickness="2" CornerRadius="8" HorizontalContentAlignment="Center" Foreground="#127DC1" FontWeight="Medium" Width="160"></Button>
+        </Grid>
+
+      </Grid>
+
+
+
+      <!--<Image Name="ImageDisplay"
+                       Source="{Binding LogoImage}"
+                       Width="580"/>-->
+
+
+
+      <!--
+        
+      <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="10" RowDefinitions="Auto,Auto,Auto, Auto, Auto">
+        <Canvas Grid.Column="0" Grid.Row="0" Width="100" Height="120">
+          <Rectangle Fill="DarkRed" Height="300" Width="5"/>
+        </Canvas>
+      </Grid>
+
+      <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="10*" RowDefinitions="Auto,Auto,Auto, Auto, Auto"  Margin="0, 70">
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" Margin="0, 0, 0, 5">Usuário </TextBlock>
+        <TextBox Name="nomeTeste" LostFocus="teste"  Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="16" Margin="0, 20, 0, 5">Senha </TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" PasswordChar="*"/>
+      </Grid>
+      
+      -->
+
+    </Grid>
+
+
+
+
+
+
+  </StackPanel>
+
+</Window>
