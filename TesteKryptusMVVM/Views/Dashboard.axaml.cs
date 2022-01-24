@@ -72,20 +72,14 @@ namespace TesteKryptusMVVM.Views
 
         public void getData()
         {
+            context.DataAtualizacao = "Atualizado em " + DateTime.Now.ToString("G");
+
             string textCmd = executeWindowsCmd("");
-
-
             textCmd = Regex.Replace(textCmd, @"\. ", "");
-
-
             char[] delims = new[] { '\r', '\n' };
 
             List<string> listInfo = textCmd.Split(delims, StringSplitOptions.RemoveEmptyEntries).OfType<string>().ToList();
-
             Dictionary<string, string> dictInfo = new Dictionary<string, string>();
-            //.Select(x => x.Split(':'))
-            // .ToDictionary(x => x[0], x => x[1]);
-
 
             for (int i = 0; i < listInfo.Count(); i++)
             {
@@ -107,6 +101,7 @@ namespace TesteKryptusMVVM.Views
 
         public void OnStarWarsPressed(object sender, PointerPressedEventArgs args)
         {
+            this.Hide();
             StarWars starWars = new StarWars();
             starWars.Show();
 

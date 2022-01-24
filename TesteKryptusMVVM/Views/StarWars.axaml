@@ -4,11 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="880" d:DesignHeight="530"
         Width="880" Height="530"
+        WindowStartupLocation="CenterScreen" 
         x:Class="TesteKryptusMVVM.Views.StarWars"
         Title="StarWars">
 
 
-  <DockPanel >
+  <DockPanel GotFocus="InitWindow">
 
 
     <Grid ColumnDefinitions="*" RowDefinitions="16, *">
@@ -18,8 +19,8 @@
         <!--Q4-->
         <Grid ColumnDefinitions="60, 1, *" RowDefinitions="*" Grid.Row="0" >
           <Grid ColumnDefinitions="*" RowDefinitions="50,50" Grid.Row="0">
-            <Rectangle Margin="0,35,0, 0" Width="35" Height="35" Grid.Column="0" Grid.Row="0"  Fill="Gray" StrokeThickness="2"/>
-            <Rectangle Margin="0,35,0, 0" Width="35" Height="35" Grid.Column="0" Grid.Row="1"  Fill="Gray" StrokeThickness="2"/>
+            <Image ToolTip.Tip="Dashboard" Grid.Column="0" Grid.Row="0" Name="dashboard" Cursor="Hand" PointerPressed="OnDashboardPressed" Margin="0,35,0, 0" Source="avares://TesteKryptusMVVM/Assets/dashboard.png" Height="35" Width="35"/>
+            <Image  ToolTip.Tip="StarWars" Grid.Column="0" Grid.Row="1" Name="starwars" Cursor="Hand" Margin="0,35,0, 0"  Source="avares://TesteKryptusMVVM/Assets/starwars.png" Height="35" Width="35"/>
           </Grid>
           <Line StartPoint="60,0" EndPoint="60, 530" Stroke="#E1E1E1" StrokeThickness="2"/>
 
@@ -28,7 +29,7 @@
             <TextBlock Grid.Row="0" Text="StarWars" HorizontalAlignment="Center" Margin="0, 20, 0, 0" FontSize="18" FontWeight="Medium" Foreground="#127DC1" />
 
             <Grid Margin="0,0,0,50" Grid.Column="0" ColumnDefinitions="250, *" RowDefinitions="*" Grid.Row="1" HorizontalAlignment="Center">
-              <ListBox   ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" BorderThickness="1" BorderBrush="#B7B7B7"  Width="300" Grid.Row="0" Grid.Column="0" Items="{Binding Movies}">
+              <ListBox   ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" BorderThickness="1" BorderBrush="#E1E1E1" CornerRadius="5"  Width="300" Grid.Row="0" Grid.Column="0" SelectedItem="{Binding SelectedMovie}"  SelectingItemsControl.SelectionChanged="OnMovieChanged" SelectionMode="Single" SelectionChanged="OnMovieChanged" Items="{Binding Movies} ">
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <Border Cursor="Hand" Width="300" Margin="0, 15, 0, 0" VerticalAlignment="Center" >
@@ -38,175 +39,160 @@
                 </ListBox.ItemTemplate>
               </ListBox>
 
-              <Grid ScrollViewer.HorizontalScrollBarVisibility="Visible"  Margin="50,0,0,0" Grid.Column="1" ColumnDefinitions="*" RowDefinitions="*"  Grid.Row="0" HorizontalAlignment="Left">
-                <Rectangle  Margin="0,0,0, 0" Width="420"  Grid.Column="0" Grid.Row="0"  Fill="Transparent" Stroke="#B7B7B7" StrokeThickness="1" />
-                <Grid  Grid.Column="0" ColumnDefinitions="*" RowDefinitions="25,25,25,25, 250"  Grid.Row="0" HorizontalAlignment="Left">
-                  <Grid  Margin="15, 15, 0, 0" Grid.Column="0" ColumnDefinitions="190*, 170" RowDefinitions="*" Grid.Row="0" HorizontalAlignment="Left">
-                    <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Left">
-                      <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Título:"/>
-                      <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="The Empire Strikes Back"/>
-                    </Grid>
+              <Grid   Margin="50,0,0,0" Grid.Column="1" ColumnDefinitions="*" RowDefinitions="*"  Grid.Row="0" HorizontalAlignment="Left">
+                
+                <Border  BorderThickness="1" MaxHeight="420" BorderBrush="#E1E1E1" CornerRadius="5" Width="400"  ScrollViewer.VerticalScrollBarVisibility="Visible">
+                  <ScrollViewer  Height="420" MaxHeight="450" >
+                    <DockPanel>
+                      <Grid  Grid.Column="0" ColumnDefinitions="*" RowDefinitions="25,25,25,25, 250"  Grid.Row="0" HorizontalAlignment="Left">
+                        <Grid  Margin="15, 15, 0, 0" Grid.Column="0" ColumnDefinitions="190*, 170" RowDefinitions="*" Grid.Row="0" HorizontalAlignment="Left">
+                          <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Título:"/>
+                            <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="The Empire Strikes Back"/>
+                          </Grid>
 
-                    <Grid Grid.Column="1" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Right">
-                      <TextBlock Grid.Column="0" Margin="20,0, 0, 0"  Foreground="#127DC1" FontSize="13" Text="Diretor: " HorizontalAlignment="Right"/>
-                      <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="Irvin Kershner"/>
-                    </Grid>
-                  </Grid>
-
-                  <Grid  Margin="15, 0, 0, 0" Grid.Column="0" ColumnDefinitions="420*" RowDefinitions="25,25" Grid.Row="1" HorizontalAlignment="Left">
-                    <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="*" Grid.Row="1" HorizontalAlignment="Left">
-                      <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Produtor(es): "/>
-                      <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="Howard G. Kazanjian, George Lucas, Rick McCallum"/>
-                    </Grid>
-                  </Grid>
-
-                  <Grid  Margin="15, 35, 0, 0" Grid.Column="0" ColumnDefinitions="190*, 220" RowDefinitions="*" Grid.Row="2" HorizontalAlignment="Left">
-                    <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Left">
-                      <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Lançamento: "/>
-                      <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="20/02/2020"/>
-                    </Grid>
-
-                    <Grid Grid.Column="1" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Right">
-                      <TextBlock Grid.Column="0" Margin="20,0, 0, 0"  Foreground="#127DC1" FontSize="13" Text="Cadastro: " HorizontalAlignment="Right"/>
-                      <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="20/02/2020 11:20"/>
-                    </Grid>
-                  </Grid>
-                  <Grid  Grid.Column="0" ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" Grid.Row="5" HorizontalAlignment="Left">
-                    <Expander Width="420" Grid.Row="0">
-                      <Expander.Header>
-                        <Grid ColumnDefinitions="420, Auto" >
-                          <TextBlock Text="Personagens" />
+                          <Grid Grid.Column="1" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Right">
+                            <TextBlock Grid.Column="0" Margin="20,0, 0, 0"  Foreground="#127DC1" FontSize="13" Text="Diretor: " HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="Irvin Kershner"/>
+                          </Grid>
                         </Grid>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <Grid  ColumnDefinitions="*" RowDefinitions="100" HorizontalAlignment="Left">
 
-                          <StackPanel>
-
-                            <!--<ListBox  MaxHeight="100"  ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Movies}">
-                            <ListBox.ItemTemplate>
-                              <DataTemplate>
-                                  <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Title}"/>
-                              </DataTemplate>
-                            </ListBox.ItemTemplate>
-                          </ListBox>-->
-
-                            <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
-                              <ItemsControl MaxHeight="100"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Characters}">
-                                <ItemsControl.ItemTemplate>
-                                  <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center"  Margin="25, 0, 0, 0" Foreground="#127DC1" FontSize="14" Text="{Binding Name}"/>
-                                  </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                              </ItemsControl>
-                            </ScrollViewer>
-
-                            <!--<ItemsControl MaxHeight="50"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Movies}">
-                                <ItemsControl.Template>
-                                  <ControlTemplate TargetType=  "ItemsControl">
-                                    <ScrollViewer>
-                                      <ItemsPresenter/>
-                                    </ScrollViewer>
-                                  </ControlTemplate>
-                                </ItemsControl.Template>
-                              </ItemsControl>-->
-
-
-                          </StackPanel>
+                        <Grid  Margin="15, 0, 0, 0" Grid.Column="0" ColumnDefinitions="420*" RowDefinitions="25,25" Grid.Row="1" HorizontalAlignment="Left">
+                          <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="*" Grid.Row="1" HorizontalAlignment="Left">
+                            <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Produtor(es): "/>
+                            <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="Howard G. Kazanjian, George Lucas, Rick McCallum"/>
+                          </Grid>
                         </Grid>
-                      </Expander.Content>
-                    </Expander>
 
-                    <Expander Width="420" Grid.Row="1">
-                      <Expander.Header>
-                        <Grid ColumnDefinitions="420, Auto" >
-                          <TextBlock Text="Planetas" />
+                        <Grid  Margin="15, 35, 0, 0" Grid.Column="0" ColumnDefinitions="190*, 220" RowDefinitions="*" Grid.Row="2" HorizontalAlignment="Left">
+                          <Grid Grid.Column="0" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock Grid.Column="0" Foreground="#127DC1" FontSize="13" Text="Lançamento: "/>
+                            <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="20/02/2020"/>
+                          </Grid>
+
+                          <Grid Grid.Column="1" ColumnDefinitions="*, *" RowDefinitions="25" Grid.Row="0" HorizontalAlignment="Right">
+                            <TextBlock Grid.Column="0" Margin="20,0, 0, 0"  Foreground="#127DC1" FontSize="13" Text="Cadastro: " HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="1" Foreground="#707070" FontSize="13" Text="20/02/2020 11:20"/>
+                          </Grid>
                         </Grid>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <StackPanel>
-                          <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
-                            <ItemsControl MaxHeight="100"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Planets}">
-                              <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                  <TextBlock VerticalAlignment="Center"  Margin="25, 0, 0, 0" Foreground="#127DC1" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                              </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                          </ScrollViewer>
-                        </StackPanel>
-                      </Expander.Content>
-                    </Expander>
-                    <Expander Width="420" Grid.Row="2">
-                      <Expander.Header>
-                        <Grid ColumnDefinitions="420, Auto" >
-                          <TextBlock Text="Starships" />
-                        </Grid>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <StackPanel>
-                          <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
-                            <ItemsControl MaxHeight="100"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Starships}">
-                              <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                  <TextBlock VerticalAlignment="Center"  Margin="25, 0, 0, 0" Foreground="#127DC1" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                              </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                          </ScrollViewer>
-                        </StackPanel>
-                      </Expander.Content>
-                    </Expander>
+                        <Grid  Grid.Column="0" ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto" Grid.Row="5" HorizontalAlignment="Left">
+                          <Expander Width="420" Grid.Row="0">
+                            <Expander.Header>
+                              <Grid ColumnDefinitions="420, Auto" >
+                                <TextBlock Text="Personagens" />
+                              </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                              <Grid  ColumnDefinitions="*" RowDefinitions="100" HorizontalAlignment="Left">
+
+                                <StackPanel Height="100">
+
+                                  <ListBox  MaxHeight="100"  ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Characters}">
+                                    <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                          <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                  </ListBox>
+
+                                </StackPanel>
+                              </Grid>
+                            </Expander.Content>
+                          </Expander>
+
+                          <Expander Width="420" Grid.Row="1">
+                            <Expander.Header>
+                              <Grid ColumnDefinitions="420, Auto" >
+                                <TextBlock Text="Planetas" />
+                              </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                              <StackPanel>
+                                <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
+                                  <ListBox  MaxHeight="100"  ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Planets}">
+                                    <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                  </ListBox>
+                                </ScrollViewer>
+                              </StackPanel>
+                            </Expander.Content>
+                          </Expander>
+                          <Expander Width="420" Grid.Row="2">
+                            <Expander.Header>
+                              <Grid ColumnDefinitions="420, Auto" >
+                                <TextBlock Text="Starships" />
+                              </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                              <StackPanel>
+                                <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
+                                  <ListBox  MaxHeight="100"  ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Starships}">
+                                    <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                  </ListBox>
+                                </ScrollViewer>
+                              </StackPanel>
+                            </Expander.Content>
+                          </Expander>
 
 
-                    <Expander Width="420" Grid.Row="3">
-                      <Expander.Header>
-                        <Grid ColumnDefinitions="420, Auto" >
-                          <TextBlock Text="Veículos" />
-                        </Grid>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <StackPanel>
-                          <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
-                            <ItemsControl MaxHeight="100"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Vehicles}">
-                              <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                  <TextBlock VerticalAlignment="Center"  Margin="25, 0, 0, 0" Foreground="#127DC1" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                              </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                          </ScrollViewer>
-                        </StackPanel>
-                      </Expander.Content>
-                    </Expander>
+                          <Expander Width="420" Grid.Row="3">
+                            <Expander.Header>
+                              <Grid ColumnDefinitions="420, Auto" >
+                                <TextBlock Text="Veículos" />
+                              </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                              <StackPanel>
+                                <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
+                                  <ListBox  MaxHeight="100"  ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Vehicles}">
+                                    <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                  </ListBox>
+                                </ScrollViewer>
+                              </StackPanel>
+                            </Expander.Content>
+                          </Expander>
 
-                    <Expander Width="420" Grid.Row="4">
-                      <Expander.Header>
-                        <Grid ColumnDefinitions="420, Auto">
-                          <TextBlock Text="Espécies" />
+                          <Expander Width="420" Grid.Row="4">
+                            <Expander.Header>
+                              <Grid ColumnDefinitions="420, Auto">
+                                <TextBlock Text="Espécies" />
+                              </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                              <StackPanel >
+                                <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
+                                  <ListBox  MaxHeight="100"  ScrollViewer.VerticalScrollBarVisibility="Auto" Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Species}">
+                                    <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                        <TextBlock VerticalAlignment="Center"  Margin="15, 0, 0, 0" Foreground="#127DC1" FontSize="13" Text="{Binding Name}"/>
+                                      </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                  </ListBox>
+                                </ScrollViewer>
+                              </StackPanel>
+                            </Expander.Content>
+                          </Expander>
                         </Grid>
-                      </Expander.Header>
-                      <Expander.Content>
-                        <StackPanel >
-                          <ScrollViewer Height="100" VerticalScrollBarVisibility="Visible">
-                            <ItemsControl MaxHeight="100"  Background="Transparent"  BorderThickness="1" BorderBrush="#B7B7B7"  Width="420" Items="{Binding Species}">
-                              <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                  <TextBlock VerticalAlignment="Center"  Margin="25, 0, 0, 0" Foreground="#127DC1" FontSize="14" Text="{Binding Name}"/>
-                                </DataTemplate>
-                              </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                          </ScrollViewer>
-                        </StackPanel>
-                      </Expander.Content>
-                    </Expander>
-                  </Grid>
-                </Grid>
+                      </Grid>
+                    </DockPanel>
+                    
+                  </ScrollViewer>
+                </Border> 
               </Grid>
             </Grid>
 
           </Grid>
-          <Button Content="Teste cliques" Click="OnButtonClick"></Button>
 
         </Grid>
 

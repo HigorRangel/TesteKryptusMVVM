@@ -23,6 +23,8 @@ namespace TesteKryptusMVVM.ViewModels
 
         private Specie[] _species;
 
+        private Movie _selectedMovie;
+
 
         public Movie[] Movies
         {
@@ -103,6 +105,20 @@ namespace TesteKryptusMVVM.ViewModels
                 }
             }
         }
+
+        public Movie SelectedMovie
+        {
+            get => _selectedMovie;
+            set
+            {
+                if (value != _selectedMovie)
+                {
+                    _selectedMovie = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

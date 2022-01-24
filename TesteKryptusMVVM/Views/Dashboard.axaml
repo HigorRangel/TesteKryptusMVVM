@@ -5,6 +5,7 @@
         mc:Ignorable="d" d:DesignWidth="880" d:DesignHeight="530"
         Width="880" Height="530"
         x:Class="TesteKryptusMVVM.Views.Dashboard"
+        WindowStartupLocation="CenterScreen" 
         Title="Dashboard">
 
 
@@ -22,7 +23,7 @@
             <Image  ToolTip.Tip="StarWars" Grid.Column="0" Grid.Row="1" Name="starwars" Cursor="Hand" Margin="0,35,0, 0" PointerPressed="OnStarWarsPressed" Source="avares://TesteKryptusMVVM/Assets/starwars.png" Height="35" Width="35"/>
           </Grid>
           <Line StartPoint="60,0" EndPoint="60, 530" Stroke="#E1E1E1" StrokeThickness="2"/>
-          <Grid Grid.Column="2" VerticalAlignment="Center" ColumnDefinitions="*" RowDefinitions="125,125" Grid.Row="0">
+          <Grid Grid.Column="2" VerticalAlignment="Center" ColumnDefinitions="*" RowDefinitions="125,125, 25" Grid.Row="0">
             <Grid  Grid.Column="0" ColumnDefinitions="275*, 275*" RowDefinitions="125*,125*"  Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
               <!--MAC-->
               <Border  Margin="0, 0, 0, 0" Grid.Row="0" Grid.Column="0" Width="275" Height="125" Background="White" BorderBrush="#B7B7B7" BorderThickness="1" CornerRadius="18" Padding="4" BoxShadow="0 0 4 3 #E1E1E1">
@@ -47,6 +48,7 @@
                 <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="IPV6" FontSize="20" FontWeight="Bold" Foreground="#B7B7B7" > </TextBlock>
               </Grid>
             </Border>
+            <TextBlock Margin="0, 10, 0, 0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding DataAtualizacao}" FontSize="16" Foreground="#B7B7B7" > </TextBlock>
           </Grid>
 
           <Grid ColumnDefinitions="20, *" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom">

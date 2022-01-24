@@ -14,6 +14,7 @@ namespace TesteKryptusMVVM.ViewModels
         private string _ipv6;
         private string _mac;
         private string _mtu;
+        private string _dataAtualizacao;
 
         public string Ipv4
         {
@@ -62,6 +63,19 @@ namespace TesteKryptusMVVM.ViewModels
                 if (value != _mtu)
                 {
                     _mtu = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string DataAtualizacao
+        {
+            get => _dataAtualizacao;
+            set
+            {
+                if (value != _dataAtualizacao)
+                {
+                    _dataAtualizacao = value;
                     OnPropertyChanged();
                 }
             }

@@ -1,11 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Newtonsoft.Json;
 using System.Net.Http;
 using TesteKryptusMVVM.Models;
 using TesteKryptusMVVM.ViewModels;
+using Avalonia.Platform;
+using Avalonia.Input;
 
 namespace TesteKryptusMVVM.Views
 {
@@ -21,42 +22,40 @@ namespace TesteKryptusMVVM.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
         }
 
-        private void OnButtonClick(object sender, RoutedEventArgs args)
+        public void InitWindow(object sender, GotFocusEventArgs e)
         {
             RetornaDados();
+        }
+
+        private void OnMovieChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var context = this.DataContext as StarWarsViewModel;
+            ListBox listbox = (ListBox)sender;
+
+
+            if (listbox.SelectedItem != null)
+            {
+                Movie movieSelected = (Movie)listbox.SelectedItem;
+                DeserializeCharacter(context, movieSelected);
+                DeserializePlanet(context, movieSelected);
+                DeserializeSpecie(context, movieSelected);
+                DeserializeStarship(context, movieSelected);
+                DeserializeVehicle(context, movieSelected);
+            }
+
+
 
         }
 
-        /* private async Task RunAsync()
-         {
-             HttpClient client;
-             Uri userUri;
-
-
-             client = new HttpClient();
-             client.BaseAddress = new Uri("https://swapi.dev");
-             client.DefaultRequestHeaders.Accept.Clear();
-             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-             var context = this.DataContext as StarWarsViewModel;
-
-             HttpResponseMessage response = await client.GetAsync("api/films/");
-             Movie movie = await response.Content.ReadAsAsync<Movie>();
-             context.Teste = movie.Director;
-
-             if (response.IsSuccessStatusCode)
-             {
-                 Movie movie = await response.Content.ReadAsAsync<Movie>();
-                 context.Teste = movie.Director;
-             }
-             else
-             {
-                 context.Teste = "ERRO";
-             }
-         }*/
+        public void OnDashboardPressed(object sender, PointerPressedEventArgs e)
+        {
+            this.Hide();
+            Dashboard dashboard = new Dashboard();
+            dashboard.Show();
+        }
 
         private async void RetornaDados()
         {
@@ -72,25 +71,18 @@ namespace TesteKryptusMVVM.Views
                         var context = this.DataContext as StarWarsViewModel;
                         //context.Teste = filmModel.movies[0].Title;
                         context.Movies = filmModel.movies;
-                        DeserializeCharacter(context);
-                        DeserializePlanet(context);
-                        DeserializeSpecie(context);
-                        DeserializeStarship(context);
-                        DeserializeVehicle(context);
-
+                        
                     }
                 }
             }
         }
 
-        private async void DeserializePlanet(StarWarsViewModel context)
+        private async void DeserializePlanet(StarWarsViewModel context, Movie movieSelected)
         {
-            foreach (Movie movie in context.Movies)
-            {
-                movie.Planets = new Planet[movie.PlanetsUrl.Length + 1];
-                for (int i = 0; i < movie.PlanetsUrl.Length; i++)
+            movieSelected.Planets = new Planet[movieSelected.PlanetsUrl.Length + 1];
+                for (int i = 0; i < movieSelected.PlanetsUrl.Length; i++)
                 {
-                    string URI = movie.PlanetsUrl[i];
+                    string URI = movieSelected.PlanetsUrl[i];
                     using (var cliente = new HttpClient())
                     {
                         using (var response = await cliente.GetAsync(URI))
@@ -101,126 +93,116 @@ namespace TesteKryptusMVVM.Views
                                 Planet planet = JsonConvert.DeserializeObject<Planet>(JsonString);
                                 if (planet != null)
                                 {
-                                    movie.Planets[i] = planet;
+                                movieSelected.Planets[i] = planet;
                                 }
                             }
                         }
                     }
                 }
-                context.Planets = movie.Planets;
-            }
+                context.Planets = movieSelected.Planets;
         }
 
-        private async void DeserializeVehicle(StarWarsViewModel context)
+        private async void DeserializeVehicle(StarWarsViewModel context, Movie movieSelected)
         {
-            foreach (Movie movie in context.Movies)
+
+            movieSelected.Vehicles = new Vehicle[movieSelected.VehiclesUrl.Length + 1];
+            for (int i = 0; i < movieSelected.VehiclesUrl.Length; i++)
             {
-                movie.Vehicles = new Vehicle[movie.VehiclesUrl.Length + 1];
-                for (int i = 0; i < movie.VehiclesUrl.Length; i++)
+                string URI = movieSelected.VehiclesUrl[i];
+                using (var cliente = new HttpClient())
                 {
-                    string URI = movie.VehiclesUrl[i];
-                    using (var cliente = new HttpClient())
+                    using (var response = await cliente.GetAsync(URI))
                     {
-                        using (var response = await cliente.GetAsync(URI))
+                        if (response.IsSuccessStatusCode)
                         {
-                            if (response.IsSuccessStatusCode)
+                            var JsonString = await response.Content.ReadAsStringAsync();
+                            Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(JsonString);
+                            if (vehicle != null)
                             {
-                                var JsonString = await response.Content.ReadAsStringAsync();
-                                Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(JsonString);
-                                if (vehicle != null)
-                                {
-                                    movie.Vehicles[i] = vehicle;
-                                }
+                                movieSelected.Vehicles[i] = vehicle;
                             }
                         }
                     }
                 }
-                context.Vehicles = movie.Vehicles;
             }
+            context.Vehicles = movieSelected.Vehicles;
+            
         }
 
-        private async void DeserializeSpecie(StarWarsViewModel context)
+        private async void DeserializeSpecie(StarWarsViewModel context, Movie movieSelected)
         {
-            foreach (Movie movie in context.Movies)
+            movieSelected.Species = new Specie[movieSelected.CharactersUrl.Length + 1];
+            for (int i = 0; i < movieSelected.CharactersUrl.Length; i++)
             {
-                movie.Species = new Specie[movie.CharactersUrl.Length + 1];
-                for (int i = 0; i < movie.CharactersUrl.Length; i++)
+                string URI = movieSelected.CharactersUrl[i];
+                using (var cliente = new HttpClient())
                 {
-                    string URI = movie.CharactersUrl[i];
-                    using (var cliente = new HttpClient())
+                    using (var response = await cliente.GetAsync(URI))
                     {
-                        using (var response = await cliente.GetAsync(URI))
+                        if (response.IsSuccessStatusCode)
                         {
-                            if (response.IsSuccessStatusCode)
+                            var JsonString = await response.Content.ReadAsStringAsync();
+                            Specie specie = JsonConvert.DeserializeObject<Specie>(JsonString);
+                            if (specie != null)
                             {
-                                var JsonString = await response.Content.ReadAsStringAsync();
-                                Specie specie = JsonConvert.DeserializeObject<Specie>(JsonString);
-                                if (specie != null)
-                                {
-                                    movie.Species[i] = specie;
-                                }
+                                movieSelected.Species[i] = specie;
                             }
                         }
                     }
                 }
-                context.Species = movie.Species;
             }
+            context.Species = movieSelected.Species;
         }
 
-        private async void DeserializeStarship(StarWarsViewModel context)
+        private async void DeserializeStarship(StarWarsViewModel context, Movie movieSelected)
         {
-            foreach (Movie movie in context.Movies)
+            movieSelected.Starships = new Starship[movieSelected.StarshipsUrl.Length + 1];
+            for (int i = 0; i < movieSelected.StarshipsUrl.Length; i++)
             {
-                movie.Starships = new Starship[movie.StarshipsUrl.Length + 1];
-                for (int i = 0; i < movie.StarshipsUrl.Length; i++)
+                string URI = movieSelected.StarshipsUrl[i];
+                using (var cliente = new HttpClient())
                 {
-                    string URI = movie.StarshipsUrl[i];
-                    using (var cliente = new HttpClient())
+                    using (var response = await cliente.GetAsync(URI))
                     {
-                        using (var response = await cliente.GetAsync(URI))
+                        if (response.IsSuccessStatusCode)
                         {
-                            if (response.IsSuccessStatusCode)
+                            var JsonString = await response.Content.ReadAsStringAsync();
+                            Starship starship = JsonConvert.DeserializeObject<Starship>(JsonString);
+                            if (starship != null)
                             {
-                                var JsonString = await response.Content.ReadAsStringAsync();
-                                Starship starship = JsonConvert.DeserializeObject<Starship>(JsonString);
-                                if (starship != null)
-                                {
-                                    movie.Starships[i] = starship;
-                                }
+                                movieSelected.Starships[i] = starship;
                             }
                         }
                     }
                 }
-                context.Starships = movie.Starships;
             }
+            context.Starships = movieSelected.Starships;
         }
 
-        private async void DeserializeCharacter(StarWarsViewModel context)
+        private async void DeserializeCharacter(StarWarsViewModel context, Movie movieSelected)
         {
-            foreach (Movie movie in context.Movies)
+            movieSelected.Characters = new Character[movieSelected.CharactersUrl.Length + 1];
+            for (int i = 0; i < movieSelected.CharactersUrl.Length; i++)
             {
-                movie.Characters = new Character[movie.CharactersUrl.Length + 1];
-                for (int i = 0; i < movie.CharactersUrl.Length; i++)
+                string URI = movieSelected.CharactersUrl[i];
+                using (var cliente = new HttpClient())
                 {
-                    string URI = movie.CharactersUrl[i];
-                    using (var cliente = new HttpClient())
+                    using (var response = await cliente.GetAsync(URI))
                     {
-                        using (var response = await cliente.GetAsync(URI))
+                        if (response.IsSuccessStatusCode)
                         {
-                            if (response.IsSuccessStatusCode)
+                            var JsonString = await response.Content.ReadAsStringAsync();
+                            Character character = JsonConvert.DeserializeObject<Character>(JsonString);
+                            if (character != null)
                             {
-                                var JsonString = await response.Content.ReadAsStringAsync();
-                                Character character = JsonConvert.DeserializeObject<Character>(JsonString);
-                                if (character != null)
-                                {
-                                    movie.Characters[i] = character;
-                                }
+                                movieSelected.Characters[i] = character;
                             }
                         }
                     }
                 }
-                context.Characters = movie.Characters;
             }
+            context.Characters = movieSelected.Characters;
+            
         }
     }
 }

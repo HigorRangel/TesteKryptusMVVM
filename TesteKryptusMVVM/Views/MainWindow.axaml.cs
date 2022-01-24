@@ -11,7 +11,7 @@ namespace TesteKryptusMVVM.Views
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            this.DataContext = new MainWindowViewModel() {TextError = "fkdlsdkflsd" };
             this.AttachDevTools();
         }
 
@@ -36,6 +36,11 @@ namespace TesteKryptusMVVM.Views
                 Dashboard dashboard = new Dashboard();
                 dashboard.Show();
                 this.Hide();
+                context.TextError = "";
+            }
+            else
+            {
+                context.TextError = "Usuário e/ou senha incorreto(s)";
             }
         }
     }

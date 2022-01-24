@@ -6,6 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="880" d:DesignHeight="530"
         Width="880" Height="530"
         x:Class="TesteKryptusMVVM.Views.MainWindow"
+        WindowStartupLocation="CenterScreen" 
         Icon="/Assets/avalonia-logo.ico"
         Title="TesteKryptusMVVM">
 
@@ -43,33 +44,9 @@
         <Grid Margin="0"  Grid.Column="1" Grid.Row="0" ColumnDefinitions="*" RowDefinitions="*" HorizontalAlignment="Right" VerticalAlignment="Center">
           <Button FontSize="16" Grid.Row="0" Grid.Column="1" Content="Registre-se" Background="Transparent" BorderBrush="#127DC1" BorderThickness="2" CornerRadius="8" HorizontalContentAlignment="Center" Foreground="#127DC1" FontWeight="Medium" Width="160"></Button>
         </Grid>
-
       </Grid>
+      <TextBlock Grid.Row="4" Grid.Column="0"  Text="{Binding TextError, Mode=TwoWay}"  Foreground="#a80505" FontSize="13" Margin="275, 7, 0, 0"></TextBlock>
 
-
-
-      <!--<Image Name="ImageDisplay"
-                       Source="{Binding LogoImage}"
-                       Width="580"/>-->
-
-
-
-      <!--
-        
-      <Grid Grid.Column="0" Grid.Row="0" ColumnDefinitions="10" RowDefinitions="Auto,Auto,Auto, Auto, Auto">
-        <Canvas Grid.Column="0" Grid.Row="0" Width="100" Height="120">
-          <Rectangle Fill="DarkRed" Height="300" Width="5"/>
-        </Canvas>
-      </Grid>
-
-      <Grid Grid.Column="1" Grid.Row="0" ColumnDefinitions="10*" RowDefinitions="Auto,Auto,Auto, Auto, Auto"  Margin="0, 70">
-        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="16" Margin="0, 0, 0, 5">Usuário </TextBlock>
-        <TextBox Name="nomeTeste" LostFocus="teste"  Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="16" Margin="0, 20, 0, 5">Senha </TextBlock>
-        <TextBox Grid.Row="4" Grid.Column="1" PasswordChar="*"/>
-      </Grid>
-      
-      -->
 
     </Grid>
 

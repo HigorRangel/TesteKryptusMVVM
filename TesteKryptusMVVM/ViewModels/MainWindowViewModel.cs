@@ -7,12 +7,13 @@ using System.Text;
 
 namespace TesteKryptusMVVM.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private Bitmap _logoImage;
         private string _path;
         private string _user;
         private string _password;
+        private string _textError;
 
         public Bitmap LogoImage
         {
@@ -60,6 +61,19 @@ namespace TesteKryptusMVVM.ViewModels
                 if (value != _password)
                 {
                     _password = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string TextError
+        {
+            get => _textError;
+            set
+            {
+                if (value != _textError)
+                {
+                    _textError = value;
                     OnPropertyChanged();
                 }
             }
